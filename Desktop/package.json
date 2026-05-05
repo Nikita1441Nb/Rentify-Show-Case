@@ -1,0 +1,34 @@
+{
+  "name": "rentify-desktop",
+  "version": "1.2.0",
+  "description": "Offline-first CRM client for rental business",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "dist": "electron-builder --win --publish always"
+  },
+  "dependencies": {
+    "@google-cloud/vision": "^4.3.2",
+    "dotenv": "^16.4.5",
+    "electron-updater": "^6.1.7",
+    "pdf-lib": "^1.17.1",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "electron": "^28.2.0",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.rentify.app",
+    "productName": "Rentify",
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icons/icon.ico"
+    },
+    "publish": {
+      "provider": "generic",
+      "url": "https://rentify.kz/api/updates/"
+    }
+  }
+}
