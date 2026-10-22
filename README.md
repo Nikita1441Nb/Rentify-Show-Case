@@ -1,26 +1,24 @@
 # Rentify CRM Core (Technical Showcase)
 
-Это демонстрационный репозиторий, содержащий ключевые архитектурные узлы системы автоматизации проката. 
-Проект реализован как **Offline-first Desktop App** с облачной синхронизацией.
+This demonstration repository showcases key architectural components of a rental management automation system. The application is built as an **offline-first desktop app** with cloud synchronization.
 
-## Технологический стек
-* **Backend:** Python 3.10, Django (REST, PostgreSQL).
-* **Desktop:** Node.js, Electron, SQLite.
-* **Integrations:** Google Vision API (OCR), Sigex (ЭЦП РК), Kaspi POS API.
-* **DevOps:** Docker, Nginx, Gunicorn.
+## Tech Stack
+- **Backend:** Python 3.10, Django, Django REST framework, PostgreSQL
+- **Desktop:** Node.js, Electron, SQLite
+- **Integrations:** Google Cloud Vision API (OCR), Sigex (Kazakhstan digital signature / EDS), Kaspi POS API
+- **DevOps:** Docker, Nginx, Gunicorn
 
-## Ключевые технические решения
+## Key Architectural Highlights
 
-### 1. Интеллектуальная синхронизация данных
-Реализован механизм инкрементальной синхронизации между локальной SQLite и серверной PostgreSQL. 
-Использование `transaction.atomic` в Django-вьюхах гарантирует атомарность операций при пакетной загрузке данных с точек.
+### 1. Smart Data Synchronization
+Implements an incremental sync engine between local SQLite instances and the central PostgreSQL database. Django views use `transaction.atomic` to guarantee atomicity during batch uploads from remote branches and client terminals.
 
-### 2. Безопасность и Лицензирование
-Разработана система привязки каждой инсталляции к "железу" через HWID (os.hostname + user) и авторизация по Bearer-токенам. 
+### 2. Security & Hardware Licensing
+Features a node licensing mechanism bound to physical hardware via unique HWID generation (`os.hostname` + system user parameters), paired with Bearer token authentication for secure API communication.
 
-### 3. Модуль автоматизации (OCR & eGov)
-* Интеграция с Google Vision для распознавания удостоверений личности РК (парсинг ИИН, дат и ФИО через Regex).
-* Автоматическая проверка клиента в реестрах должников eGov через SOAP/REST запросы.
+### 3. Identity Verification & Automation (OCR & eGov)
+- **ID Processing:** Integrates Google Cloud Vision OCR to extract identity card data (regex-based parsing for Kazakhstani National Identification Numbers [IIN], issue dates, and full names).
+- **Compliance Checks:** Automatically validates customer records against eGov public debtor registries using SOAP and REST protocols.
 
-### 4. Сложная бизнес-логика (Recalculation Engine)
-На стороне фронтенда (Renderer) реализован движок пересчета стоимости аренды в реальном времени, учитывающий многотарифную сетку, скидки и динамические периоды.
+### 4. Real-Time Recalculation Engine
+An in-memory billing engine runs on the desktop renderer process to calculate rental totals in real time, handling multi-tier pricing matrices, dynamic rental durations, and automated discount schemes.
